@@ -1,4 +1,4 @@
-# Process Manager
+# Proce
 
 A simple web application to manager processes. 
 
@@ -9,6 +9,7 @@ A simple web application to manager processes.
 - Development, Staging and Production settings with ['python-decouple'](https://pypi.org/project/python-decouple/)
 - Get value insight and debug information while on Development with [django-debug-toolbar](https://django-debug-toolbar.readthedocs.org). 
 - Frontend using django templates + framework css with [Semantic-ui](https://semantic-ui.com/) + DOM manipulation with [Jquery3](http://api.jquery.com/)
+- Color palette available at: /static/core/palette.pdf
 
 
 ## Requirements
