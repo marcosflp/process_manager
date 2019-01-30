@@ -1,0 +1,90 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block main_container %}
+  <div class="ui middle aligned center aligned grid">
+    <div class="nine wide column">
+
+      <img class="logo" src="{% static 'core/img/icon-left-font.svg' %}" alt="Logo">
+      <form class="ui large form" id="login-form" method="post">{% csrf_token %}
+        <div class="ui raised segment">
+          <div class="field">
+            <div class="ui left icon input">
+              <i class="user icon"></i>
+              {{ form.username }}
+              {{ form.username.errors }}
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui left icon input">
+              <i class="lock icon"></i>
+              {{ form.password }}
+              {{ form.password.erros }}
+            </div>
+          </div>
+          <div class="ui fluid large primary-color submit button">Login</div>
+        </div>
+        <div class="ui error message"></div>
+      </form>
+
+      {% if form.non_field_errors %}
+        <div class="ui form warning">
+          <div class="ui warning message">
+            <ul class="list">
+              {{ form.non_field_errors }}
+            </ul>
+          </div>
+        </div>
+      {% endif %}
+
+    </div>
+  </div>
+
+  {% block style %}
+    <style type="text/css">
+      .raised.segment {
+        padding: 3rem;
+      }
+      .logo {
+        width: 100%;
+        margin: -5rem 0 -11rem 0;
+      }
+      .column {
+        max-width: 500px;
+      }
+    </style>
+  {% endblock %}
+
+  {% block script %}
+    <script>
+      $(document).ready(function () {
+        $('.ui.form').form({
+          fields: {
+            email: {
+              identifier: 'username',
+              rules: [
+                {
+                  type: 'empty',
+                  prompt: 'Please enter your e-mail'
+                }
+              ]
+            },
+            password: {
+              identifier: 'password',
+              rules: [
+                {
+                  type: 'empty',
+                  prompt: 'Please enter your password'
+                },
+                {
+                  type: 'length[6]',
+                  prompt: 'Your password must be at least 6 characters'
+                }
+              ]
+            }
+          }
+        });
+      });
+    </script>
+  {% endblock %}
+{% endblock main_container %}

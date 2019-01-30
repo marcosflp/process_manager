@@ -14,6 +14,7 @@ import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 from decouple import config
+from django.urls import reverse_lazy
 from django.utils.log import DEFAULT_LOGGING
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -29,6 +30,15 @@ SECRET_KEY = 'm_959^y-!0v3lo@(b9n_18$ahpn_%mk0_o7zf6(ra&^m$t^9!o'
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
+
+LOGIN_URL = reverse_lazy('login')
+LOGIN_REDIRECT_URL = reverse_lazy('home')
+LOGOUT_REDIRECT_URL = reverse_lazy('login')
+LOGIN_EXEMPT_URLS = (
+    r'^login/$',
+    r'^logout/$',
+    r'^admin/'
+)
 
 
 # Application definition
@@ -52,6 +62,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'process_manager.middleware.LoginRequiredMiddleware',
 ]
 
 ROOT_URLCONF = 'process_manager.urls'

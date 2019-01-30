@@ -18,19 +18,21 @@
 </head>
 <body>
 
-<div class="ui top fixed menu">
-  <div class="ui container">
-    <div class="item">
-      <img src="{% static 'core/img/icon.svg' %}" alt="Proce">
-    </div>
-    <a class="item">Usuários</a>
-    <a class="item">Processos</a>
+{% if request.user.is_authenticated %}
+  <div class="ui top fixed menu">
+    <div class="ui container">
+      <div class="item">
+        <img src="{% static 'core/img/icon.svg' %}" alt="Proce">
+      </div>
+      <a class="item">Usuários</a>
+      <a class="item">Processos</a>
 
-    <a class="right item" href="">
-      Logout
-    </a>
+      <a class="right item" href="{% url 'logout' %}">
+        Logout
+      </a>
+    </div>
   </div>
-</div>
+{% endif %}
 
 <div class="ui fluid main container">
   {% block main_container %}

@@ -8,4 +8,32 @@
 }
 
 
+/* Elements style */
+
+h1, h2, h3, h4, h5 {
+  color: var(--primary-color) !important;
+}
+
+.button.primary-color {
+  background-color: var(--tertiary-color) !important;
+  color: #fff !important;
+}
+.button.primary-color:hover {
+  background-color: var(--secondary-color) !important;
+}
+.button.secondary-color {
+  background-color: var(--secondary-color) !important;
+  color: #fff !important;
+}
+.button.secondary-color:hover {
+  background-color: var(--secondary-color) !important;
+}
+.button.tertiary-color {
+  background-color: var(--tertiary-color) !important;
+  color: #fff !important;
+}
+.button.tertiary-color:hover {
+  background-color: var(--tertiary-color) !important;
+}
+
 /* Global css style */
