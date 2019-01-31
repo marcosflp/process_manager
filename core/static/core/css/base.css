@@ -1,9 +1,9 @@
 /* Variables */
 
 :root {
-  --primary-color: #032c5e;
+  --primary-color: #256187;
   --secondary-color: #0687a5;
-  --tertiary-color: #256187;
+  --tertiary-color: #032c5e;
   --quarter-color: #05698d;
 }
 
@@ -15,7 +15,7 @@ h1, h2, h3, h4, h5 {
 }
 
 .button.primary-color {
-  background-color: var(--tertiary-color) !important;
+  background-color: var(--primary-color) !important;
   color: #fff !important;
 }
 .button.primary-color:hover {
@@ -37,3 +37,25 @@ h1, h2, h3, h4, h5 {
 }
 
 /* Global css style */
+
+.menu.top.fixed a.item.home:hover {
+  background-color: transparent;
+}
+
+.main.container {
+  margin-top: 7rem;
+}
+.main.container h2.header {
+  margin-bottom: 4rem;
+}
+
+.header {
+  overflow: hidden;
+  margin-bottom: 4rem;
+}
+.header h2.header {
+  margin-bottom: 0 !important;
+}
+.header .add-user {
+  margin-top: 0.7rem;
+}

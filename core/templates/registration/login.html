@@ -1,7 +1,7 @@
 {% extends 'core/base.html' %}
 {% load static %}
 
-{% block main_container %}
+{% block content %}
   <div class="ui middle aligned center aligned grid">
     <div class="nine wide column">
 
@@ -47,7 +47,7 @@
       }
       .logo {
         width: 100%;
-        margin: -5rem 0 -11rem 0;
+        margin: -12rem 0 -11rem 0;
       }
       .column {
         max-width: 500px;
@@ -65,7 +65,7 @@
               rules: [
                 {
                   type: 'empty',
-                  prompt: 'Please enter your e-mail'
+                  prompt: 'Por favor, insira seu e-mail'
                 }
               ]
             },
@@ -74,12 +74,8 @@
               rules: [
                 {
                   type: 'empty',
-                  prompt: 'Please enter your password'
+                  prompt: 'Por favor, insira sua senha'
                 },
-                {
-                  type: 'length[6]',
-                  prompt: 'Your password must be at least 6 characters'
-                }
               ]
             }
           }
@@ -87,4 +83,4 @@
       });
     </script>
   {% endblock %}
-{% endblock main_container %}
+{% endblock content %}

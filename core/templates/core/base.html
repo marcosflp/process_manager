@@ -21,33 +21,21 @@
 {% if request.user.is_authenticated %}
   <div class="ui top fixed menu">
     <div class="ui container">
-      <div class="item">
+      <a href="{% url 'home' %}" class="home item">
         <img src="{% static 'core/img/icon.svg' %}" alt="Proce">
-      </div>
-      <a class="item">Usuários</a>
+      </a>
+      <a class="item" href="{% url 'profile-list-view' %}">Usuários</a>
       <a class="item">Processos</a>
 
       <a class="right item" href="{% url 'logout' %}">
-        Logout
+        <i class="user icon"></i> {{ user }}
       </a>
     </div>
   </div>
 {% endif %}
 
-<div class="ui fluid main container">
-  {% block main_container %}
-    <div class="row">
-      <div class="ui grid">
-        <div class="base-sidebar two wide column">
-          {% block sidebar %}
-          {% endblock %}
-        </div>
-        <div class="base-content fourteen wide column">
-          {% block content %}
-          {% endblock %}
-        </div>
-      </div>
-    </div>
+<div class="ui main container">
+  {% block content %}
   {% endblock %}
 </div>
 

@@ -1,0 +1,23 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+  <div class="header">
+    <h2 class="ui left floated header">
+      <i class="user icon"></i>
+      <div class="content">
+        Remover
+      </div>
+    </h2>
+  </div>
+
+  <div class="row">
+    <form method="post">{% csrf_token %}
+      <p>Tem certeza que deseja remover "{{ object }}"?</p>
+
+      <input class="ui red button" type="submit" value="Remover">
+      <a href="{% url 'profile-list-view' %}">
+        <button type="button" class="ui green button">Cancelar</button>
+      </a>
+    </form>
+  </div>
+{% endblock %}

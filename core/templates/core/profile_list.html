@@ -1,0 +1,43 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+  <div class="header">
+    <h2 class="ui left floated header">
+      <i class="user icon"></i>
+      <div class="content">
+        Usuários
+        <div class="sub header">Crie, edite ou adicione novos usuários</div>
+      </div>
+    </h2>
+    <a href="{% url 'profile-create-view' %}" class="ui add-user right floated small primary labeled icon button">
+      <i class="user icon"></i> Adicionar
+    </a>
+  </div>
+
+  <div class="row">
+    <table class="ui very basic celled table">
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>Email</th>
+        <th class="center aligned">Ações</th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for profile in object_list %}
+        <tr>
+          <td>#{{ profile.pk }}</td>
+          <td>{{ profile.user.first_name }} {{ profile.user.last_name }}</td>
+          <td>{{ profile.user.email }}</td>
+          <td class="center aligned">
+            <a href="{% url 'profile-update-view' pk=profile.pk %}"><i class="edit icon teal"></i></a>
+            <a href="{% url 'profile-delete-view' pk=profile.pk %}"><i class="trash alternate icon red"></i></a>
+          </td>
+        </tr>
+      {% endfor %}
+
+      </tbody>
+    </table>
+  </div>
+{% endblock %}
