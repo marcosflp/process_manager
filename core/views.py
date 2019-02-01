@@ -181,3 +181,12 @@ class ProcessFeedbackUpdateView(BaseUpdateView):
             'process-detail-view',
             kwargs={'pk': self.kwargs['process_pk']}
         )
+
+
+class ProcessFeedbackDeleteView(BaseDeleteView):
+    model = ProcessFeedback
+    permission_required = 'core.update_processfeedback'
+
+    def get_success_url(self):
+        url_kwargs = {'pk': self.kwargs['process_pk']}
+        return reverse('process-detail-view', kwargs=url_kwargs)

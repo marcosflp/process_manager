@@ -27,6 +27,11 @@
 
           {% has_perm 'core.update_processfeedback' user process_feedback as can_edit_feedback %}
           {% if can_edit_feedback %}
+            <a href="{% url 'processfeedback-delete-view' process_pk=process.pk pk=process_feedback.pk %}"
+               class="edit"
+               data-content="Remover">
+              <i class="trash alternate icon red"></i>
+            </a>
             <a href="{% url 'processfeedback-update-view' process_pk=process.pk pk=process_feedback.pk %}"
                data-content="Editar"
                class="edit">

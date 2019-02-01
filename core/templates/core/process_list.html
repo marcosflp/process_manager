@@ -1,4 +1,6 @@
 {% extends 'core/base.html' %}
+{% load shared_tags %}
+
 
 {% block content %}
   <div class="header">
@@ -21,7 +23,7 @@
         <th>ID</th>
         <th>Título</th>
         <th>Descrição</th>
-        <th class="center aligned">Possui parecer</th>
+        <th class="center aligned">Usuários com parecer</th>
         <th class="center aligned">Ações</th>
       </tr>
       </thead>
@@ -33,12 +35,18 @@
             <a href="{% url 'process-detail-view' pk=process.pk %}">{{ process.title }}</a>
           </td>
           <td>{{ process.description|truncatechars:50 }}</td>
-          <td class="center aligned">
-            {% if process.has_feedback %}
-              <i class="green checkmark icon"></i>
-            {% else %}
-              <i class="grey close icon"></i>
-            {% endif %}
+          <td>
+            {% for user in process.feedback_users.all %}
+              <div>
+                {% user_has_published_process_feedback user process as has_feedback %}
+                {% if has_feedback %}
+                  <i class="green small checkmark icon"></i>
+                {% else %}
+                  <i class="grey small close icon"></i>
+                {% endif %}
+                {{ user }}
+              </div>
+            {% endfor %}
           </td>
           <td class="center aligned actions">
             <a href="{% url 'processfeedback-create-view' process_pk=process.pk %}" data-content="Adicionar Parecer">

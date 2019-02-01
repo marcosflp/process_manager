@@ -91,7 +91,7 @@ class ProcessFeedback(BaseModel):
     )
 
     def __str__(self):
-        return self.process
+        return f'Parecer: {self.description[:25]}...'
 
 
 def create_profile(instance, created, **kwargs):

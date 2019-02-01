@@ -57,6 +57,8 @@ class ProfileForm(forms.ModelForm):
         email = self.cleaned_data['email']
 
         if self.instance.pk:
+
+            # Check if the email registered already exists
             if self.instance.user.email != email:
                 if User.objects.filter(Q(email=email) | Q(username=email)).exists():
                     raise forms.ValidationError('Email já cadastrado')
@@ -74,6 +76,25 @@ class ProcessForm(forms.ModelForm):
         widgets = {
             'feedback_users': forms.SelectMultiple(attrs={'class': 'ui search selection dropdown'})
         }
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        if self.instance.pk:
+            # Validate if the manager are removing a publisher that had written
+            # feedback on the process
+            feedback_users = self.instance.feedback_users.all()
+            for user in feedback_users:
+                if user not in cleaned_data['feedback_users'].all():
+                    if self.has_user_published_on_process(user):
+                        message = f'User "{user}" already published on this process'
+                        raise forms.ValidationError(message)
+
+        return cleaned_data
+
+    def has_user_published_on_process(self, user):
+        return ProcessFeedback.objects.filter(
+            process=self.instance, created_by=user).exists()
 
 
 class ProcessFeedbackForm(forms.ModelForm):

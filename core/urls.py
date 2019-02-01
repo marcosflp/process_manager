@@ -4,7 +4,8 @@ from core.views import (
     HomeView,
     ProfileListView, ProfileCreateView, ProfileUpdateView, ProfileDeleteView,
     ProcessListView, ProcessCreateView, ProcessUpdateView, ProcessDeleteView,
-    ProcessDetailView, ProcessFeedbackCreateView, ProcessFeedbackUpdateView)
+    ProcessDetailView, ProcessFeedbackCreateView, ProcessFeedbackUpdateView,
+    ProcessFeedbackDeleteView)
 
 urlpatterns = [
     path('auth/', include('django.contrib.auth.urls')),
@@ -45,4 +46,7 @@ urlpatterns = [
     path('process/<int:process_pk>/feedback/<int:pk>/',
          ProcessFeedbackUpdateView.as_view(),
          name='processfeedback-update-view'),
+    path('process/<int:process_pk>/feedback/delete/<int:pk>/',
+         ProcessFeedbackDeleteView.as_view(),
+         name='processfeedback-delete-view'),
 ]
