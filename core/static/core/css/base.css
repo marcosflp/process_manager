@@ -8,10 +8,53 @@
 }
 
 
+/* Font */
+
+@font-face {
+  font-family: 'AleoBold';
+  src: url('/static/core/font/aleo/Aleo-Bold.otf') format('opentype');
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'AleoBoldItalic';
+  src: url('/static/core/font/aleo/Aleo-BoldItalic.otf') format('opentype');
+  font-weight: bold;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'AleoItalic';
+  src: url('/static/core/font/aleo/Aleo-Italic.otf') format('opentype');
+  font-weight: normal;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'AleoLight';
+  src: url('/static/core/font/aleo/Aleo-Light.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'AleoLightItalic';
+  src: url('/static/core/font/aleo/Aleo-LightItalic.otf') format('opentype');
+  font-weight: normal;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'AleoRegular';
+  src: url('/static/core/font/aleo/Aleo-Regular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
 /* Elements style */
 
 h1, h2, h3, h4, h5 {
-  color: var(--primary-color) !important;
+  color: var(--tertiary-color) !important;
 }
 
 .button.primary-color {
@@ -35,6 +78,7 @@ h1, h2, h3, h4, h5 {
 .button.tertiary-color:hover {
   background-color: var(--tertiary-color) !important;
 }
+
 
 /* Global css style */
 

@@ -15,13 +15,38 @@
 
   <div class="row">
     <form class="ui form {% if form.errors %}error{% endif %}" method="post">{% csrf_token %}
-      <div class="field">
-        <label>{{ form.first_name.label }}</label>
-        {{ form.first_name }}
+      <h4 class="ui dividing header">Permissões</h4>
+      <div class="three fields">
+        <div class="field">
+          <div class="ui slider checkbox">
+            {{ form.is_admin }}
+            <label>{{ form.is_admin.label }}</label>
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui slider checkbox">
+            {{ form.is_manager }}
+            <label>{{ form.is_manager.label }}</label>
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui slider checkbox">
+            {{ form.is_publisher }}
+            <label>{{ form.is_publisher.label }}</label>
+          </div>
+        </div>
       </div>
-      <div class="field">
-        <label>{{ form.last_name.label }}</label>
-        {{ form.last_name }}
+
+      <h4 class="ui dividing header">Informações</h4>
+      <div class="two fields">
+        <div class="field">
+          <label>{{ form.first_name.label }}</label>
+          {{ form.first_name }}
+        </div>
+        <div class="field">
+          <label>{{ form.last_name.label }}</label>
+          {{ form.last_name }}
+        </div>
       </div>
       <div class="field">
         <label>{{ form.email.label }}</label>

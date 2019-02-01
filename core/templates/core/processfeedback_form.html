@@ -19,7 +19,7 @@
       <div><strong>Criado por:</strong> {{ form.instance.process.created_by }}</div>
     {% else %}
       <div><strong>Processo:</strong> {{ process }}</div>
-      <div><strong>Criado por:</strong> {{ process.created_by }}</div>
+      <div><strong>Processo criado por:</strong> {{ process.created_by }}</div>
     {% endif %}
 
     <br>
@@ -38,7 +38,11 @@
       </div>
 
       <button class="ui green submit button"><i class="icon save"></i>Salvar</button>
-      <a href="{% url 'process-list-view' %}">
+      {% if form.instance.process.pk %}
+        <a href="{% url 'process-detail-view' pk=form.instance.process.pk %}">
+      {% else %}
+        <a href="{% url 'process-list-view' %}">
+      {% endif %}
         <button type="button" class="ui grey button"><i class="icon chevron left"></i>Voltar</button>
       </a>
     </form>

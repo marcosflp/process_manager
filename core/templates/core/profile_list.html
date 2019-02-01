@@ -21,6 +21,9 @@
         <th>ID</th>
         <th>Nome</th>
         <th>Email</th>
+        <th class="center aligned">Administrador</th>
+        <th class="center aligned">Triador</th>
+        <th class="center aligned">Finalizador</th>
         <th class="center aligned">Ações</th>
       </tr>
       </thead>
@@ -30,6 +33,27 @@
           <td>#{{ profile.pk }}</td>
           <td>{{ profile.user.first_name }} {{ profile.user.last_name }}</td>
           <td>{{ profile.user.email }}</td>
+          <td class="center aligned actions">
+            {% if profile.is_admin %}
+              <i class="green checkmark icon"></i>
+            {% else %}
+              <i class="grey close icon"></i>
+            {% endif %}
+          </td>
+          <td class="center aligned actions">
+            {% if profile.is_manager %}
+              <i class="green checkmark icon"></i>
+            {% else %}
+              <i class="grey close icon"></i>
+            {% endif %}
+          </td>
+          <td class="center aligned actions">
+            {% if profile.is_publisher %}
+              <i class="green checkmark icon"></i>
+            {% else %}
+              <i class="grey close icon"></i>
+            {% endif %}
+          </td>
           <td class="center aligned actions">
             <a href="{% url 'profile-update-view' pk=profile.pk %}" data-content="Editar">
               <i class="edit icon"></i>

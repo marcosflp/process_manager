@@ -51,6 +51,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'rules.apps.AutodiscoverRulesConfig',
+
     'core',
 ]
 
@@ -85,6 +87,11 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'process_manager.wsgi.application'
+
+AUTHENTICATION_BACKENDS = (
+    'rules.permissions.ObjectPermissionBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
 
 
 # Database

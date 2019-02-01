@@ -1,11 +1,11 @@
 {% extends "core/base.html" %}
-
+{% load rules %}
 
 {% block content %}
   <h2 class="ui header">
     <i class="archive icon"></i>
     <div class="content">
-      <div class="active section">Processo: {{ process.title }}</div>
+      <div class="active section">Processo #{{ process.pk }}: {{ process.title }}</div>
     </div>
   </h2>
 
@@ -24,11 +24,15 @@
       <div class="ui segment">
         <div class="header">
           <h5 class="ui header">Criado por: {{ process_feedback.created_by }}</h5>
-          <a href="{% url 'processfeedback-update-view' process_pk=process.pk pk=process_feedback.pk %}"
-             data-content="Editar"
-             class="edit">
-            <i class="edit icon"></i>
-          </a>
+
+          {% has_perm 'core.update_processfeedback' user process_feedback as can_edit_feedback %}
+          {% if can_edit_feedback %}
+            <a href="{% url 'processfeedback-update-view' process_pk=process.pk pk=process_feedback.pk %}"
+               data-content="Editar"
+               class="edit">
+              <i class="edit icon"></i>
+            </a>
+          {% endif %}
         </div>
 
         <p>{{ process_feedback.description|linebreaks }}</p>

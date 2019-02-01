@@ -33,7 +33,8 @@ class ProfileForm(forms.ModelForm):
 
     class Meta:
         model = Profile
-        fields = ('first_name', 'last_name', 'email')
+        fields = ('first_name', 'last_name', 'email', 'is_admin', 'is_manager',
+                  'is_publisher')
 
     def __init__(self, **kwargs):
         super(ProfileForm, self).__init__(**kwargs)
@@ -49,7 +50,7 @@ class ProfileForm(forms.ModelForm):
 
     def clean(self):
         if self.cleaned_data['password'] != self.cleaned_data['password_confirm']:
-            raise forms.ValidationError('Senha não confere.')
+            raise forms.ValidationError('Senhas não conferem.')
         return self.cleaned_data
 
     def clean_email(self):

@@ -18,6 +18,24 @@ class Profile(BaseModel):
     """
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
+    # Set fields to use with Rule permissions
+
+    is_admin = models.BooleanField(
+        default=False,
+        verbose_name='Administrador',
+        help_text='Possui todas as permissões'
+    )
+    is_manager = models.BooleanField(
+        default=False,
+        verbose_name='Triador',
+        help_text='Pode gerenciar processos'
+    )
+    is_publisher = models.BooleanField(
+        default=False,
+        verbose_name='Finalizador',
+        help_text='Pode incluir parecer sobre um processo'
+    )
+
     def __str__(self):
         return f'{self.user.email}'
 
@@ -74,3 +92,14 @@ class ProcessFeedback(BaseModel):
 
     def __str__(self):
         return self.process
+
+
+def create_profile(instance, created, **kwargs):
+    """
+    Create Profile if necessary
+    """
+    if created and not hasattr(instance, 'profile'):
+        Profile.objects.create(user=instance)
+
+
+models.signals.post_save.connect(create_profile, sender=User)

@@ -2,12 +2,15 @@
 {% load static %}
 
 {% block content %}
-  <div class="ui middle aligned center aligned grid">
+  <div class="ui middle aligned center aligned login grid">
     <div class="nine wide column">
 
       <img class="logo" src="{% static 'core/img/icon-left-font.svg' %}" alt="Logo">
       <form class="ui large form" id="login-form" method="post">{% csrf_token %}
         <div class="ui raised segment">
+          <h2 class="ui header">
+            Gerenciador de Processos
+          </h2><br>
           <div class="field">
             <div class="ui left icon input">
               <i class="user icon"></i>
@@ -22,7 +25,7 @@
               {{ form.password.erros }}
             </div>
           </div>
-          <div class="ui fluid large primary-color submit button">Login</div>
+          <div class="ui fluid large primary-color submit button">Entrar</div>
         </div>
         <div class="ui error message"></div>
       </form>
@@ -31,7 +34,7 @@
         <div class="ui form warning">
           <div class="ui warning message">
             <ul class="list">
-              {{ form.non_field_errors }}
+              {{ form.non_field_errors.0 }}
             </ul>
           </div>
         </div>
@@ -39,48 +42,54 @@
 
     </div>
   </div>
-
-  {% block style %}
-    <style type="text/css">
-      .raised.segment {
-        padding: 3rem;
-      }
-      .logo {
-        width: 100%;
-        margin: -12rem 0 -11rem 0;
-      }
-      .column {
-        max-width: 500px;
-      }
-    </style>
-  {% endblock %}
-
-  {% block script %}
-    <script>
-      $(document).ready(function () {
-        $('.ui.form').form({
-          fields: {
-            email: {
-              identifier: 'username',
-              rules: [
-                {
-                  type: 'empty',
-                  prompt: 'Por favor, insira seu e-mail'
-                }
-              ]
-            },
-            password: {
-              identifier: 'password',
-              rules: [
-                {
-                  type: 'empty',
-                  prompt: 'Por favor, insira sua senha'
-                },
-              ]
-            }
-          }
-        });
-      });
-    </script>
-  {% endblock %}
 {% endblock content %}
+
+
+{% block style %}
+  <style type="text/css">
+    .main .login form h2.header {
+      font-family: 'AleoRegular', sans-serif;
+      margin-bottom: 1rem;
+    }
+    .raised.segment {
+      padding: 3rem;
+    }
+    .logo {
+      width: 100%;
+      margin: -12rem 0 -11rem 0;
+    }
+    .column {
+      max-width: 500px;
+    }
+  </style>
+{% endblock %}
+
+
+{% block script %}
+  <script>
+    $(document).ready(function () {
+      $('.ui.form').form({
+        fields: {
+          email: {
+            identifier: 'username',
+            rules: [
+              {
+                type: 'empty',
+                prompt: 'Por favor, insira seu e-mail'
+              }
+            ]
+          },
+          password: {
+            identifier: 'password',
+            rules: [
+              {
+                type: 'empty',
+                prompt: 'Por favor, insira sua senha'
+              },
+            ]
+          }
+        }
+      });
+    });
+  </script>
+{% endblock %}
