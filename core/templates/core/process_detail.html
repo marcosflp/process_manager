@@ -1,0 +1,64 @@
+{% extends "core/base.html" %}
+
+
+{% block content %}
+  <h2 class="ui header">
+    <i class="archive icon"></i>
+    <div class="content">
+      <div class="active section">Processo: {{ process.title }}</div>
+    </div>
+  </h2>
+
+  <div class="content">
+    <h4 class="ui header">Descrição: </h4>
+    <p>{{ process.description|linebreaks }}</p>
+  </div>
+
+  <h4 class="ui horizontal divider header">
+    <i class="clipboard note icon"></i>
+    Pareceres
+  </h4>
+  <br>
+  <div class="row">
+    {% for process_feedback in process.processfeedback_set.all %}
+      <div class="ui segment">
+        <div class="header">
+          <h5 class="ui header">Criado por: {{ process_feedback.created_by }}</h5>
+          <a href="{% url 'processfeedback-update-view' process_pk=process.pk pk=process_feedback.pk %}"
+             data-content="Editar"
+             class="edit">
+            <i class="edit icon"></i>
+          </a>
+        </div>
+
+        <p>{{ process_feedback.description|linebreaks }}</p>
+      </div>
+    {% endfor %}
+  </div>
+
+  <div class="row">
+    <a href="{% url 'process-list-view' %}">
+      <button type="button" class="ui grey button back">
+        <i class="icon chevron left"></i>Voltar
+      </button>
+    </a>
+  </div>
+{% endblock %}
+
+
+{% block style %}
+  <style>
+    div.header {
+      margin-bottom: 1rem;
+    }
+    h5.header {
+      float: left;
+    }
+    a.edit {
+      float: right;
+    }
+    .button.back {
+      margin-top: 1rem;
+    }
+  </style>
+{% endblock %}

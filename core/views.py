@@ -1,11 +1,11 @@
 from django.contrib.auth.models import User
 from django.db import transaction
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views.generic import TemplateView, ListView, DetailView, \
     CreateView, UpdateView, DeleteView
 
-from core.forms import ProfileForm
-from core.models import Profile
+from core.forms import ProfileForm, ProcessForm, ProcessFeedbackForm
+from core.models import Profile, Process, ProcessFeedback
 
 
 class BaseListView(ListView):
@@ -80,3 +80,62 @@ class ProfileUpdateView(BaseUpdateView):
 class ProfileDeleteView(BaseDeleteView):
     model = Profile
     success_url = reverse_lazy('profile-list-view')
+
+
+class ProcessListView(BaseListView):
+    model = Process
+    queryset = Process.objects.all()
+
+
+class ProcessCreateView(BaseCreateView):
+    model = Process
+    form_class = ProcessForm
+    success_url = reverse_lazy('process-list-view')
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.created_by = self.request.user
+        self.object.save()
+        return super(ProcessCreateView, self).form_valid(form)
+
+
+class ProcessUpdateView(BaseUpdateView):
+    model = Process
+    form_class = ProcessForm
+    success_url = reverse_lazy('process-list-view')
+
+
+class ProcessDetailView(BaseDetailView):
+    model = Process
+
+
+class ProcessDeleteView(BaseDeleteView):
+    model = Process
+    success_url = reverse_lazy('process-list-view')
+
+
+class ProcessFeedbackCreateView(CreateView):
+    model = ProcessFeedback
+    form_class = ProcessFeedbackForm
+    success_url = reverse_lazy('process-list-view')
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.process = Process.objects.get(pk=self.kwargs['process_pk'])
+        self.object.created_by = self.request.user
+        self.object.save()
+        return super(ProcessFeedbackCreateView, self).form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        data = super(ProcessFeedbackCreateView, self).get_context_data(**kwargs)
+        data['process'] = Process.objects.get(pk=self.kwargs['process_pk'])
+        return data
+
+
+class ProcessFeedbackUpdateView(BaseUpdateView):
+    model = ProcessFeedback
+    form_class = ProcessFeedbackForm
+
+    def get_success_url(self):
+        return reverse('process-detail-view',
+                       kwargs={'pk': self.kwargs['process_pk']})

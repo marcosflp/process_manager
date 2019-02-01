@@ -1,0 +1,69 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+  <div class="header">
+    <h2 class="ui left floated header">
+      <i class="archive icon"></i>
+      <div class="content">
+        Processos
+        <div class="sub header">Crie, edite ou adicione novos processos</div>
+      </div>
+    </h2>
+    <a href="{% url 'process-create-view' %}" class="ui add-user right floated small primary labeled icon button">
+      <i class="archive icon"></i> Adicionar
+    </a>
+  </div>
+
+  <div class="row">
+    <table class="ui very basic celled table">
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Título</th>
+        <th>Descrição</th>
+        <th class="center aligned">Possui parecer</th>
+        <th class="center aligned">Ações</th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for process in object_list %}
+        <tr>
+          <td>#{{ process.pk }}</td>
+          <td>
+            <a href="{% url 'process-detail-view' pk=process.pk %}">{{ process.title }}</a>
+          </td>
+          <td>{{ process.description|truncatechars:50 }}</td>
+          <td class="center aligned">
+            {% if process.has_feedback %}
+              <i class="green checkmark icon"></i>
+            {% else %}
+              <i class="grey close icon"></i>
+            {% endif %}
+          </td>
+          <td class="center aligned actions">
+            <a href="{% url 'processfeedback-create-view' process_pk=process.pk %}" data-content="Adicionar Parecer">
+              <i class="clipboard note icon"></i>
+            </a>
+            <a href="{% url 'process-update-view' pk=process.pk %}" data-content="Editar">
+              <i class="edit icon"></i>
+            </a>
+            <a href="{% url 'process-delete-view' pk=process.pk %}" data-content="Remover">
+              <i class="trash alternate icon red"></i>
+            </a>
+          </td>
+        </tr>
+      {% endfor %}
+
+      </tbody>
+    </table>
+  </div>
+{% endblock %}
+
+
+{% block script %}
+  <script>
+    $(document).ready(function(){
+      $('td.actions a').popup();
+    })
+  </script>
+{% endblock %}

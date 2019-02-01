@@ -24,8 +24,8 @@
       <a href="{% url 'home' %}" class="home item">
         <img src="{% static 'core/img/icon.svg' %}" alt="Proce">
       </a>
-      <a class="item" href="{% url 'profile-list-view' %}">Usuários</a>
-      <a class="item">Processos</a>
+      <a href="{% url 'profile-list-view' %}" class="item">Usuários</a>
+      <a href="{% url 'process-list-view' %}" class="item">Processos</a>
 
       <a class="right item" href="{% url 'logout' %}">
         <i class="user icon"></i> {{ user }}

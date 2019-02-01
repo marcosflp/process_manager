@@ -16,15 +16,15 @@
   <div class="row">
     <form class="ui form {% if form.errors %}error{% endif %}" method="post">{% csrf_token %}
       <div class="field">
-        <label>Nome</label>
+        <label>{{ form.first_name.label }}</label>
         {{ form.first_name }}
       </div>
       <div class="field">
-        <label>Sobrenome</label>
+        <label>{{ form.last_name.label }}</label>
         {{ form.last_name }}
       </div>
       <div class="field">
-        <label>Email</label>
+        <label>{{ form.email.label }}</label>
         {{ form.email }}
         {% if form.email.errors %}
           <div class="ui pointing top red basic label">
@@ -34,7 +34,7 @@
       </div>
 
       <div class="field">
-        <label>Senha</label>
+        <label>{{ form.password.label }}</label>
         {{ form.password }}
         {% if form.password.errors %}
           <div class="ui pointing top red basic label">
@@ -43,7 +43,7 @@
         {% endif %}
       </div>
       <div class="field">
-        <label>Confirmar senha</label>
+        <label>{{ form.password_confirm.label }}</label>
         {{ form.password_confirm }}
         {% if form.password_confirm.errors %}
           <div class="ui pointing top red basic label">

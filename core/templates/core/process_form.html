@@ -1,0 +1,54 @@
+{% extends "core/base.html" %}
+
+
+{% block content %}
+  <h2 class="ui header">
+    <i class="archive icon"></i>
+    <div class="content">
+      {% if form.instance.pk %}
+        <div class="active section">Editar processo</div>
+      {% else %}
+        <div class="active section">Adicionar novo processo</div>
+      {% endif %}
+    </div>
+  </h2>
+
+  <div class="row">
+    <form class="ui form {% if form.errors %}error{% endif %}" method="post">{% csrf_token %}
+      {% if form.non_field_errors %}
+        <div class="ui error message">
+          {% for error in form.non_field_errors %}
+            <p>{{ error }}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      <div class="field">
+        <label>{{ form.title.label }}</label>
+        {{ form.title }}
+      </div>
+      <div class="field">
+        <label>{{ form.description.label }}</label>
+        {{ form.description }}
+      </div>
+      <div id="feedback-users" class="field">
+        <label>{{ form.feedback_users.label }}</label>
+        {{ form.feedback_users }}
+      </div>
+
+      <button class="ui green submit button"><i class="icon save"></i>Salvar</button>
+      <a href="{% url 'process-list-view' %}">
+        <button type="button" class="ui grey button"><i class="icon chevron left"></i>Voltar</button>
+      </a>
+    </form>
+  </div>
+{% endblock %}
+
+
+{% block script %}
+  <script>
+    $(document).ready(function(){
+      $('#feedback-users select').dropdown()
+    })
+  </script>
+{% endblock %}

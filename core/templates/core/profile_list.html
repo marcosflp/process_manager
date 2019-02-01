@@ -30,9 +30,13 @@
           <td>#{{ profile.pk }}</td>
           <td>{{ profile.user.first_name }} {{ profile.user.last_name }}</td>
           <td>{{ profile.user.email }}</td>
-          <td class="center aligned">
-            <a href="{% url 'profile-update-view' pk=profile.pk %}"><i class="edit icon teal"></i></a>
-            <a href="{% url 'profile-delete-view' pk=profile.pk %}"><i class="trash alternate icon red"></i></a>
+          <td class="center aligned actions">
+            <a href="{% url 'profile-update-view' pk=profile.pk %}" data-content="Editar">
+              <i class="edit icon"></i>
+            </a>
+            <a href="{% url 'profile-delete-view' pk=profile.pk %}" data-content="Remover">
+              <i class="trash alternate icon red"></i>
+            </a>
           </td>
         </tr>
       {% endfor %}
@@ -40,4 +44,13 @@
       </tbody>
     </table>
   </div>
+{% endblock %}
+
+
+{% block script %}
+  <script>
+    $(document).ready(function(){
+      $('td.actions a').popup();
+    })
+  </script>
 {% endblock %}

@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.db.models import Q
 
-from core.models import Profile
+from core.models import Profile, Process, ProcessFeedback
 
 
 class ProfileForm(forms.ModelForm):
@@ -27,7 +27,7 @@ class ProfileForm(forms.ModelForm):
     )
     password_confirm = forms.CharField(
         max_length=20,
-        label='Senha',
+        label='Confirmar Senha',
         widget=forms.TextInput(attrs={'placeholder': 'Confirmar senha'})
     )
 
@@ -43,7 +43,9 @@ class ProfileForm(forms.ModelForm):
             self.fields['email'].initial = self.instance.user.email
 
             self.fields['password'].required = False
+            self.fields['password'].label = 'Nova Senha (deixe em branco se não deseja alterar)'
             self.fields['password_confirm'].required = False
+            self.fields['password_confirm'].label = 'Confirmar Nova Senha'
 
     def clean(self):
         if self.cleaned_data['password'] != self.cleaned_data['password_confirm']:
@@ -62,3 +64,18 @@ class ProfileForm(forms.ModelForm):
                 raise forms.ValidationError('Email já cadastrado')
 
         return email
+
+
+class ProcessForm(forms.ModelForm):
+    class Meta:
+        model = Process
+        fields = ('title', 'description', 'feedback_users')
+        widgets = {
+            'feedback_users': forms.SelectMultiple(attrs={'class': 'ui search selection dropdown'})
+        }
+
+
+class ProcessFeedbackForm(forms.ModelForm):
+    class Meta:
+        model = ProcessFeedback
+        fields = ('description',)
