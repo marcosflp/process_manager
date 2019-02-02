@@ -14,8 +14,8 @@
 
     <div class="ui seven wide column">
       <a href="{% url 'profile-create-view' %}" class="ui add-user primary labeled icon button">
-      <i class="user icon"></i> Adicionar
-    </a>
+        <i class="user icon"></i> Adicionar
+      </a>
 
       <form class="search" action=".">
         <div class="ui search">
@@ -28,13 +28,40 @@
     </div>
   </div>
 
+  <div class="ui permissions disabled segment">
+    <div class="ui list">
+      <div class="item">
+        <i class="user secret icon"></i>
+        <div class="content">
+          <div class="header">Administrador</div>
+          <div class="description">Possui permissão para listar, criar, editar, remover processos e usuários.</div>
+        </div>
+      </div>
+      <div class="item">
+        <i class="user plus icon"></i>
+        <div class="content">
+          <div class="header">Triador</div>
+          <div class="description">Possui permissão pra listar, criar, editar e remover processos.</div>
+        </div>
+      </div>
+      <div class="item">
+        <i class="users icon"></i>
+        <div class="content">
+          <div class="header">Finalizador</div>
+          <div class="description">Possui permissão para publicar parecer em processos que está participando.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="row">
-    <table class="ui very basic celled table">
+    <table class="ui celled table">
       <thead>
       <tr>
         <th>ID</th>
         <th>Nome</th>
         <th>Email</th>
+        <th>Criado em</th>
         <th class="center aligned">Administrador</th>
         <th class="center aligned">Triador</th>
         <th class="center aligned">Finalizador</th>
@@ -47,6 +74,7 @@
           <td>#{{ profile.pk }}</td>
           <td>{{ profile.user.first_name }} {{ profile.user.last_name }}</td>
           <td>{{ profile.user.email }}</td>
+          <td>{{ profile.user.date_joined }}</td>
           <td class="center aligned actions">
             {% if profile.is_admin %}
               <i class="green checkmark icon"></i>
@@ -83,6 +111,15 @@
   </div>
 
   {% include 'core/pagination.html' %}
+{% endblock %}
+
+
+{% block style %}
+  <style>
+    .permissions.disabled.segment {
+      margin: -3.5rem 0 2.5rem 0;
+    }
+  </style>
 {% endblock %}
 
 

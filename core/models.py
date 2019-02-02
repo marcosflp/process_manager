@@ -63,6 +63,7 @@ class Process(BaseModel):
         related_name='processes',
         on_delete=models.PROTECT
     )
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.title
@@ -88,6 +89,7 @@ class ProcessFeedback(BaseModel):
         verbose_name='Criado por',
         on_delete=models.PROTECT
     )
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f'Parecer: {self.description[:25]}...'

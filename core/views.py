@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import transaction
-from django.db.models import Q
+from django.db.models import Q, Count, F
 from django.http import Http404, HttpResponseRedirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import (
@@ -33,12 +33,23 @@ class BaseDeleteView(PermissionRequiredMixin, DeleteView):
 
 
 class HomeView(TemplateView):
-    template_name = 'core/base.html'
+    template_name = 'core/home.html'
+
+    def get_context_data(self, **kwargs):
+        data = super(HomeView, self).get_context_data()
+
+        data['total_users'] = Profile.objects.count()
+        data['total_processes'] = Process.objects.count()
+        data['total_processes_pending'] = Process.objects.annotate(
+            total_publishes=Count('feedback_users'),
+            total_feedbackprocesses=Count('processfeedback')
+        ).filter(total_publishes__gt=F('total_feedbackprocesses')).count()
+
+        return data
 
 
 class ProfileListView(BaseListView):
     model = Profile
-    queryset = Profile.objects.all()
     permission_required = 'admin_user'
 
     def get_queryset(self):

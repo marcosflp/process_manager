@@ -31,12 +31,12 @@
   </div>
 
   <div class="row">
-    <table class="ui very basic celled table">
+    <table class="ui table">
       <thead>
       <tr>
         <th>ID</th>
         <th>Título</th>
-        <th>Descrição</th>
+        <th>Criado em</th>
         <th class="center aligned">Usuários com parecer</th>
         <th class="center aligned">Ações</th>
       </tr>
@@ -46,9 +46,9 @@
         <tr>
           <td>#{{ process.pk }}</td>
           <td>
-            <a href="{% url 'process-detail-view' pk=process.pk %}">{{ process.title }}</a>
+            <a href="{% url 'process-detail-view' pk=process.pk %}">{{ process.title|truncatechars:70 }}</a>
           </td>
-          <td>{{ process.description|truncatechars:50 }}</td>
+          <td>{{ process.created_at }}</td>
           <td>
             {% for user in process.feedback_users.all %}
               <div>

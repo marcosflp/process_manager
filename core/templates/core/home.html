@@ -1,0 +1,45 @@
+{% extends "core/base.html" %}
+
+
+{% block main_content %}
+  <div class="home">
+    <div class="ui statistics">
+      <div class="statistic">
+        <div class="value">
+          <i class="user icon"></i> {{ total_users }}
+        </div>
+        <div class="label">
+          Usuários
+        </div>
+      </div>
+      <div class="statistic">
+        <div class="value">
+          <i class="archive icon"></i> {{ total_processes }}
+        </div>
+        <div class="label">
+          Total Processos
+        </div>
+      </div>
+      <div class="statistic">
+        <div class="value">
+          <i class="archive icon"></i> {{ total_processes_pending }}
+        </div>
+        <div class="label">
+          Processos pendentes de Parecer
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+
+{% block style %}
+  <style>
+    .home {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 80%;
+    }
+  </style>
+{% endblock style %}
