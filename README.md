@@ -18,7 +18,7 @@ A simple web application to manager processes.
 - Python >= 3.6
 
 
-## How to install
+## How to configure and run the project
 
 > Remember to create a new virtualenv first
 
@@ -32,7 +32,7 @@ $ python manage.py createsuperuser
 ```
 
 
-## Custom django settings
+#### Custom django settings
 
 You must create a settings.ini file at the root of the project. To create this file, use the settings.ini.example template.
 
@@ -60,6 +60,13 @@ ENABLE_LOGGING=True
 
 # Debug Toolbar
 ENABLE_DEBUG_TOOLBAR=False
+```
+
+
+#### Running the project
+
+```bash
+$ python manage.py runserver
 ```
 
 
