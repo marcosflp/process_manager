@@ -3,17 +3,31 @@
 
 
 {% block content %}
-  <div class="header">
-    <h2 class="ui left floated header">
-      <i class="archive icon"></i>
-      <div class="content">
-        Processos
-        <div class="sub header">Crie, edite ou adicione novos processos</div>
-      </div>
-    </h2>
-    <a href="{% url 'process-create-view' %}" class="ui add-user right floated small primary labeled icon button">
-      <i class="archive icon"></i> Adicionar
-    </a>
+  <div class="ui grid sub-header">
+    <div class="ui nine wide column">
+      <h2 class="ui left floated header">
+        <i class="archive icon"></i>
+        <div class="content">
+          Processos
+          <div class="sub header">Crie, edite ou adicione novos processos</div>
+        </div>
+      </h2>
+    </div>
+
+    <div class="ui seven wide column">
+      <a href="{% url 'process-create-view' %}" class="ui add-user primary labeled icon button">
+        <i class="archive icon"></i> Adicionar
+      </a>
+
+      <form class="search" action=".">
+        <div class="ui search">
+          <div class="ui icon input">
+            <input type="text" name="q" value="{{ request.GET.q }}" placeholder="Buscar...">
+            <i class="circular search link icon"></i>
+          </div>
+        </div>
+      </form>
+    </div>
   </div>
 
   <div class="row">
@@ -65,6 +79,7 @@
       </tbody>
     </table>
   </div>
+  {% include 'core/pagination.html' %}
 {% endblock %}
 
 

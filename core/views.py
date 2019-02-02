@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import transaction
+from django.db.models import Q
 from django.http import Http404, HttpResponseRedirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import (
@@ -12,7 +13,7 @@ from core.models import Profile, Process, ProcessFeedback
 
 
 class BaseListView(PermissionRequiredMixin, ListView):
-    paginate_by = 50
+    paginate_by = 15
 
 
 class BaseDetailView(PermissionRequiredMixin, DetailView):
@@ -39,6 +40,19 @@ class ProfileListView(BaseListView):
     model = Profile
     queryset = Profile.objects.all()
     permission_required = 'admin_user'
+
+    def get_queryset(self):
+        queryset = super(ProfileListView, self).get_queryset()
+
+        q = self.request.GET.get('q', None)
+        if q:
+            queryset = queryset.filter(
+                Q(user__email__icontains=q)
+                | Q(user__first_name__icontains=q)
+                | Q(user__last_name__icontains=q)
+            ).distinct()
+
+        return queryset
 
 
 class ProfileCreateView(BaseCreateView):
@@ -96,6 +110,16 @@ class ProcessListView(BaseListView):
 
     def get_queryset(self):
         queryset = super(ProcessListView, self).get_queryset()
+
+        q = self.request.GET.get('q', None)
+        if q:
+            queryset = queryset.filter(
+                Q(pk__icontains=q)
+                | Q(title__icontains=q)
+                | Q(description__icontains=q)
+                | Q(feedback_users__email__icontains=q)
+                | Q(feedback_users__first_name__icontains=q)
+            ).distinct()
 
         if self.request.user.has_perm('admin_user'):
             # show all

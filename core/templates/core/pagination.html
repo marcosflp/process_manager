@@ -1,0 +1,97 @@
+{% if is_paginated %}
+  <div class="pagination">
+    <div class="ui pagination menu">
+      {% if page_obj.has_previous %}
+        <a class="icon item"
+          {% if not request.GET.q %}
+            href="?page={{ page_obj.previous_page_number }}"
+          {% else %}
+            href="?page={{ page_obj.previous_page_number }}&q={{ request.GET.q }}"
+          {% endif %}
+        >
+          <i class="left chevron icon"></i>
+        </a>
+      {% else %}
+        <a class="icon disabled item">
+          <i class="left chevron icon"></i>
+        </a>
+      {% endif %}
+
+      <a class="item">
+        <div class="ui form">
+          <div class="field">
+            <input type="text" value="{{ page_obj.number }} de {{ paginator.num_pages }}">
+          </div>
+        </div>
+      </a>
+
+      {% if page_obj.has_next %}
+        <a class="icon item"
+          {% if not request.GET.q %}
+            href="?page={{ page_obj.next_page_number }}"
+          {% else %}
+            href="?page={{ page_obj.next_page_number }}&q={{ request.GET.q }}"
+          {% endif %}
+        >
+          <i class="right chevron icon"></i>
+        </a>
+      {% else %}
+        <a class="icon item disabled">
+          <i class="right chevron icon"></i>
+        </a>
+      {% endif %}
+    </div>
+  </div>
+
+  <style>
+    .pagination {
+      text-align: right;
+      margin: 2rem 0;
+    }
+
+    .ui.pagination.menu .ui.form input {
+      line-height: normal;
+      padding: 0;
+      border: none;
+      width: 60px;
+      text-align: center;
+    }
+
+    .ui.pagination.menu div.ui.form input::-webkit-outer-spin-button,
+    .ui.pagination.menu div.ui.form input::-webkit-inner-spin-button {
+      /* display: none; <- Crashes Chrome on hover */
+      -webkit-appearance: none;
+      margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+    }
+  </style>
+
+  <script>
+    go_to_page = function (elem) {
+      const index_reg = /([0-9]+)/;
+      const index_array = index_reg.exec(elem.value);
+
+      if (!index_array) {
+        return location.href = '?page=' + '{{ page_obj.number }}'
+      }
+
+      let page_number = parseInt(index_array[0]);
+      if (page_number >= {{ paginator.num_pages }}) {
+        return location.href = '?page=' + '{{ paginator.num_pages }}'
+      }
+
+      return location.href = '?page=' + index_array[0]
+    };
+
+    index_input = $('.ui.form input');
+
+    index_input.focusout(function () {
+      go_to_page(this)
+    });
+    index_input.keypress(function (event) {
+      if (event.which === 13) {
+        go_to_page(this);
+        event.preventDefault();
+      }
+    })
+  </script>
+{% endif %}

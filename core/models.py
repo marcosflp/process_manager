@@ -51,7 +51,6 @@ class Process(BaseModel):
     title = models.CharField(max_length=128, verbose_name='Título')
     description = models.TextField(verbose_name='Descrição')
 
-    feedback = models.TextField(verbose_name='Parecer')
     feedback_users = models.ManyToManyField(
         User,
         verbose_name='Usuários a incluir parecer',
