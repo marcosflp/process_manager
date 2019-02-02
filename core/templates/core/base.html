@@ -27,8 +27,11 @@
       <a href="{% url 'profile-list-view' %}" class="item">Usuários</a>
       <a href="{% url 'process-list-view' %}" class="item">Processos</a>
 
-      <a class="right item" href="{% url 'logout' %}">
+      <div class="right item" href="{% url 'logout' %}">
         <i class="user icon"></i> {{ user }}
+      </div>
+      <a class="right logout item" href="{% url 'logout' %}">
+        <i class="sign out alternate icon"></i> Logout
       </a>
     </div>
   </div>

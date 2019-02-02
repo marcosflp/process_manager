@@ -40,10 +40,7 @@ class HomeView(TemplateView):
 
         data['total_users'] = Profile.objects.count()
         data['total_processes'] = Process.objects.count()
-        data['total_processes_pending'] = Process.objects.annotate(
-            total_publishes=Count('feedback_users'),
-            total_feedbackprocesses=Count('processfeedback')
-        ).filter(total_publishes__gt=F('total_feedbackprocesses')).count()
+        data['total_processes_pending'] = Process.objects.pending_processes().count()
 
         return data
 
@@ -84,6 +81,12 @@ class ProfileCreateView(BaseCreateView):
 
         # The user Profile will be created at core.models.create_profile
         # with post_save signal.
+
+        # Update the profile data
+        user.profile.is_admin = form.cleaned_data['is_admin']
+        user.profile.is_manager = form.cleaned_data['is_manager']
+        user.profile.is_publisher = form.cleaned_data['is_publisher']
+        user.profile.save()
 
         return HttpResponseRedirect(self.get_success_url())
 

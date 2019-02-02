@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.db.models import Count, F, Q
 
 
 class BaseModel(models.Model):
@@ -44,6 +45,18 @@ class Profile(BaseModel):
         super(Profile, self).delete(using, keep_parents)
 
 
+class ProcessManager(models.Manager):
+
+    def pending_processes(self):
+        return self.annotate(
+            total_publishes=Count('feedback_users'),
+            total_feedbackprocesses=Count('processfeedback')
+        ).filter(
+            Q(total_feedbackprocesses=0)
+            | Q(total_publishes__gt=F('total_feedbackprocesses'))
+        )
+
+
 class Process(BaseModel):
     """
     Model to register new processes
@@ -53,8 +66,9 @@ class Process(BaseModel):
 
     feedback_users = models.ManyToManyField(
         User,
-        verbose_name='Usuários a incluir parecer',
-        blank=True
+        verbose_name='Usuários-triadores a incluir parecer',
+        blank=True,
+        limit_choices_to=Q(profile__is_publisher=True)
     )
 
     created_by = models.ForeignKey(
@@ -64,6 +78,8 @@ class Process(BaseModel):
         on_delete=models.PROTECT
     )
     created_at = models.DateTimeField(auto_now_add=True)
+
+    objects = ProcessManager()
 
     def __str__(self):
         return self.title
