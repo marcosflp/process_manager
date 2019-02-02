@@ -11,6 +11,19 @@
   </div>
 
   <div class="row">
+    {% if protected_objects %}
+      <div class="ui error message">
+        <i class="close icon"></i>
+        <div class="header">
+          Não é possível remover esse usuário pois ele está relacionado com outros objetos.
+        </div>
+        <ul class="list">
+          {% for projected_object in protected_objects %}
+            <li>{{ projected_object }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
     <form method="post">{% csrf_token %}
       <p>Tem certeza que deseja remover "{{ object }}"?</p>
 

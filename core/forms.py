@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
+from django.db import transaction
 from django.db.models import Q
 
 from core.models import Profile, Process, ProcessFeedback
@@ -44,12 +45,15 @@ class ProfileForm(forms.ModelForm):
             self.fields['email'].initial = self.instance.user.email
 
             self.fields['password'].required = False
-            self.fields['password'].label = 'Nova Senha (deixe em branco se não deseja alterar)'
+            self.fields[
+                'password'].label = 'Nova Senha (deixe em branco se não deseja alterar)'
             self.fields['password_confirm'].required = False
             self.fields['password_confirm'].label = 'Confirmar Nova Senha'
 
     def clean(self):
-        if self.cleaned_data['password'] != self.cleaned_data['password_confirm']:
+        if (self.cleaned_data.get('password')
+                and self.cleaned_data['password']
+                != self.cleaned_data['password_confirm']):
             raise forms.ValidationError('Senhas não conferem.')
         return self.cleaned_data
 
@@ -60,13 +64,40 @@ class ProfileForm(forms.ModelForm):
 
             # Check if the email registered already exists
             if self.instance.user.email != email:
-                if User.objects.filter(Q(email=email) | Q(username=email)).exists():
+                if User.objects.filter(
+                        Q(email=email) | Q(username=email)).exists():
                     raise forms.ValidationError('Email já cadastrado')
         else:
-            if User.objects.filter(Q(email=email) | Q(username=email)).exists():
+            if User.objects.filter(
+                    Q(email=email) | Q(username=email)).exists():
                 raise forms.ValidationError('Email já cadastrado')
 
         return email
+
+    @transaction.atomic
+    def save(self, commit=True):
+        if not self.instance.pk:
+            user = User.objects.create(
+                username=self.cleaned_data['email'],
+                first_name=self.cleaned_data['first_name'],
+                last_name=self.cleaned_data['last_name'],
+                email=self.cleaned_data['email']
+            )
+            user.set_password(self.cleaned_data['password'])
+            user.save()
+
+            # The user Profile will be created at core.models.create_profile
+            # with post_save signal.
+
+            # Update the profile data
+            user.profile.is_admin = self.cleaned_data['is_admin']
+            user.profile.is_manager = self.cleaned_data['is_manager']
+            user.profile.is_publisher = self.cleaned_data['is_publisher']
+            user.profile.save()
+
+            return user.profile
+
+        return super(ProfileForm, self).save(commit)
 
 
 class ProcessForm(forms.ModelForm):
@@ -74,7 +105,8 @@ class ProcessForm(forms.ModelForm):
         model = Process
         fields = ('title', 'description', 'feedback_users')
         widgets = {
-            'feedback_users': forms.SelectMultiple(attrs={'class': 'ui search selection dropdown'})
+            'feedback_users': forms.SelectMultiple(
+                attrs={'class': 'ui search selection dropdown'})
         }
 
     def clean(self):

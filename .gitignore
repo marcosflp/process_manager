@@ -331,3 +331,5 @@ modules.xml
 # Extra ignores
 
 settings.ini
+static
+

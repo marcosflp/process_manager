@@ -6,8 +6,9 @@ A simple web application to manager processes.
 ## Features
 
 - Django 2.1+
-- Development, Staging and Production settings with ['python-decouple'](https://pypi.org/project/python-decouple/)
-- Get value insight and debug information while on Development with [django-debug-toolbar](https://django-debug-toolbar.readthedocs.org). 
+- Development, Staging and Production settings with [python-decouple](https://pypi.org/project/python-decouple/)
+- Get value insight and debug information while on Development with [django-debug-toolbar](https://django-debug-toolbar.readthedocs.org).
+- Create fake data with [model-mommy](https://model-mommy.readthedocs.io/en/latest/basic_usage.html) 
 - Frontend using django templates + framework css with [Semantic-ui](https://semantic-ui.com/) + DOM manipulation with [Jquery3](http://api.jquery.com/)
 - Color palette available at: /static/core/palette.pdf
 
@@ -59,4 +60,11 @@ ENABLE_LOGGING=True
 
 # Debug Toolbar
 ENABLE_DEBUG_TOOLBAR=False
+```
+
+
+## Running the tests
+
+```bash
+$ python manage.py test
 ```

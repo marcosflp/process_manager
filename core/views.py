@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import transaction
-from django.db.models import Q, Count, F
+from django.db.models import Q, Count, F, ProtectedError
 from django.http import Http404, HttpResponseRedirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import (
@@ -68,28 +68,6 @@ class ProfileCreateView(BaseCreateView):
     form_class = ProfileForm
     permission_required = 'admin_user'
 
-    @transaction.atomic
-    def form_valid(self, form):
-        user = User.objects.create(
-            username=form.cleaned_data['email'],
-            first_name=form.cleaned_data['first_name'],
-            last_name=form.cleaned_data['last_name'],
-            email=form.cleaned_data['email']
-        )
-        user.set_password(form.cleaned_data['password'])
-        user.save()
-
-        # The user Profile will be created at core.models.create_profile
-        # with post_save signal.
-
-        # Update the profile data
-        user.profile.is_admin = form.cleaned_data['is_admin']
-        user.profile.is_manager = form.cleaned_data['is_manager']
-        user.profile.is_publisher = form.cleaned_data['is_publisher']
-        user.profile.save()
-
-        return HttpResponseRedirect(self.get_success_url())
-
     def get_success_url(self):
         return reverse('profile-list-view')
 
@@ -116,6 +94,23 @@ class ProfileDeleteView(BaseDeleteView):
     model = Profile
     success_url = reverse_lazy('profile-list-view')
     permission_required = 'admin_user'
+
+    def delete(self, request, *args, **kwargs):
+        """
+        Calls the delete() method on the fetched object and then
+        redirects to the success URL.
+        """
+        self.object = self.get_object()
+        success_url = self.get_success_url()
+
+        try:
+            self.object.delete()
+        except ProtectedError as e:
+            context = self.get_context_data(object=self.object)
+            context['protected_objects'] = e.protected_objects
+            return self.render_to_response(context)
+
+        return HttpResponseRedirect(success_url)
 
 
 class ProcessListView(BaseListView):
