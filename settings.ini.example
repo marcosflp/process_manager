@@ -7,7 +7,7 @@ SECRET_KEY=4cn68iga94@**2x9vb1f*-104pe%%*-u-%%#%%1wh!r(+mjiza@y$
 # Database
 DATABASE_ENGINE=django.db.backends.sqlite3
 DATABASE_HOST=localhost
-DATABASE_NAME=process_manager
+DATABASE_NAME=process_manager.sqlite3
 DATABASE_USER=
 DATABASE_PASSWORD=
 
