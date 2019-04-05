@@ -11,6 +11,7 @@
           <h2 class="ui header">
             Gerenciador de Processos
           </h2><br>
+
           <div class="field">
             <div class="ui left icon input">
               <i class="user icon"></i>
@@ -23,6 +24,14 @@
               <i class="lock icon"></i>
               {{ form.password }}
               {{ form.password.erros }}
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui label">
+              <i class="user icon"></i> administrador@proce.com
+              <span class="detail">
+                <i class="lock open icon"></i> administrador
+              </span>
             </div>
           </div>
           <div class="ui fluid large primary-color submit button">Entrar</div>
@@ -50,6 +59,9 @@
     .main .login form h2.header {
       font-family: 'AleoRegular', sans-serif;
       margin-bottom: 1rem;
+    }
+    .submit.button {
+      margin-top: 1rem;
     }
     .raised.segment {
       padding: 3rem;

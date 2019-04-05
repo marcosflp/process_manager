@@ -166,6 +166,13 @@ if DEBUG and ENABLE_DEBUG_TOOLBAR:
     )
 
 
+# Django Rest Framework config
+
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
+}
+
+
 # Logging
 
 if config('ENABLE_LOGGING', default=False, cast=bool):

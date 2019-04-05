@@ -19,6 +19,7 @@ class ProfileForm(forms.ModelForm):
         widget=forms.TextInput(attrs={'placeholder': 'Sobrenome'})
     )
     email = forms.EmailField(
+        initial="administrador@proce.com",
         widget=forms.EmailInput(attrs={'placeholder': 'Email'})
     )
     password = forms.CharField(
